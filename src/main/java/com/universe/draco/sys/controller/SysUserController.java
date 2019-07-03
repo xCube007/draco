@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -32,10 +31,18 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
-    @ResponseBody
+    /**
+     *
+     * 功能描述: 登录验证
+     *
+     * @author: Liu Xiaonan
+     * @param json:  前端传入的json
+     * @return: java.lang.String
+     * @date: 2019/7/2 20:19
+     */
+    // @ResponseBody
     @RequestMapping(value = "/login")
     public String login(@RequestBody JSONObject json) {
-//        ResultVo result = new ResultVo();
         ResultVo result = new ResultVo();
         try {
             SysUser user = new SysUser();
@@ -46,9 +53,8 @@ public class SysUserController {
                 user.setMobile(account);
             } else if ("2".equals(method)){
                 user.setEmail(account);
-            } else {
-
             }
+            // TODO  验证
             logger.info("用户" + account + "请求登录~");
 
             int count = sysUserService.selectCount(new EntityWrapper<>(user));
@@ -73,9 +79,9 @@ public class SysUserController {
             e.printStackTrace();
             result.setCode(ResultVo.ERROR);
             result.setMsg("登录异常");
+            System.out.println();
             return JSONObject.toJSONString(result);
         }
-
     }
-}
 
+}

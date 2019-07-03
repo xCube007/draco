@@ -5,9 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
 /**
- *
- * Create on 2017年7月6日下午8:05:19
+ * 设置允许跨域请求
+ * Create on 2019年7月1日下午8:05:19
  * All right reserved
  */
 @Configuration
