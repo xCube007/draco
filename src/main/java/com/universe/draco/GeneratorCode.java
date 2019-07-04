@@ -64,7 +64,7 @@ public class GeneratorCode {
 
     public static void main(String[] args) {
         GeneratorCode g = new GeneratorCode();
-        g.generateCode("Lxn",
+        g.generateCode("Liu Xiaonan",
                 "com.universe.draco.sys",
                 new String[]{""},
                 new String[]{"sys_user"}
