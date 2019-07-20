@@ -3,9 +3,7 @@ package com.universe.draco.vo;
 /**
  * 封装返回信息用
  */
-public class ResultVo {
-    public static String SUCCESS = "1"; //成功
-    public static String ERROR = "0"; //失败
+public class ResultVO {
 
     private String code; //请求结果编码，成功或失败
     private String msg; //请求结果信息

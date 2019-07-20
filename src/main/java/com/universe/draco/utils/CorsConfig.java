@@ -8,7 +8,7 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * 设置允许跨域请求
- * Create on 2019年7月1日下午8:05:19
+ * Create on 2019年7月1日 8:05:19
  * All right reserved
  */
 @Configuration

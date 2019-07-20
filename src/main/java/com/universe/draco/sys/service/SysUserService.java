@@ -1,8 +1,7 @@
 package com.universe.draco.sys.service;
 
-import com.universe.draco.sys.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
-import com.universe.draco.vo.ResultVo;
+import com.universe.draco.sys.entity.SysUser;
 
 /**
  * <p>
@@ -14,5 +13,4 @@ import com.universe.draco.vo.ResultVo;
  */
 public interface SysUserService extends IService<SysUser> {
 
-    ResultVo login(String account, String password);
 }
