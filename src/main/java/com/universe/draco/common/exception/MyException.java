@@ -10,7 +10,7 @@ public class MyException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	
     private String msg;
-    private int code = 500;
+    private String code;
     
     public MyException(String msg) {
 		super(msg);
@@ -22,13 +22,13 @@ public class MyException extends RuntimeException {
 		this.msg = msg;
 	}
 	
-	public MyException(String msg, int code) {
+	public MyException(String code, String msg) {
 		super(msg);
 		this.msg = msg;
 		this.code = code;
 	}
 	
-	public MyException(String msg, int code, Throwable e) {
+	public MyException(String code, String msg, Throwable e) {
 		super(msg, e);
 		this.msg = msg;
 		this.code = code;
@@ -42,11 +42,11 @@ public class MyException extends RuntimeException {
 		this.msg = msg;
 	}
 
-	public int getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(int code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 	

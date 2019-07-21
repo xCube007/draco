@@ -26,7 +26,7 @@ public class DefaultExceptionHandler {
             if (e instanceof MyException ) {
                 logger.debug(e.getMessage(), e);
                 MyException  ex = (MyException) e;
-                return Result.error(ex.getMsg());
+                return Result.error(ex.getCode(), ex.getMsg());
             } else {
                 logger.error(e.getMessage(), e);
                 return Result.error(e.getMessage());

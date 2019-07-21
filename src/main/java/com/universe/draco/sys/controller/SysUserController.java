@@ -1,9 +1,11 @@
 package com.universe.draco.sys.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.universe.draco.annotations.CurrentUser;
 import com.universe.draco.sys.entity.SysUser;
 import com.universe.draco.sys.service.SysUserService;
 import com.universe.draco.utils.Result;
+import com.universe.draco.utils.TokenUtils;
 import com.universe.draco.vo.LoginVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,20 +38,19 @@ public class SysUserController {
     private SysUserService sysUserService;
 
     /**
+     * 功能描述:
      *
-     * 功能描述: 登录验证
-     *
+     * @param loginVo:       前端传入的json
+     * @param bindingResult:
      * @author: Liu Xiaonan
-     * @param loginVo:  前端传入的json
      * @return: java.lang.String
      * @date: 2019/7/2 20:19
      */
-    // @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@Valid @RequestBody LoginVo loginVo, BindingResult bindingResult) {
         // 校验传入的参数是否符合规范
         if (bindingResult.hasErrors()) {
-            logger.error(String.valueOf(bindingResult.getFieldError()),bindingResult);
+            logger.error(String.valueOf(bindingResult.getFieldError()), bindingResult);
             return Result.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
         }
         // 开始对用户名密码进行校验
@@ -57,7 +58,7 @@ public class SysUserController {
         String account = loginVo.getAccount();
         String password = loginVo.getPassword();
         int method = loginVo.getMethod();
-        if (method == 1){
+        if (method == 1) {
             user.setMobile(account);
         } else {
             user.setEmail(account);
@@ -75,7 +76,13 @@ public class SysUserController {
         if (sysUser == null) {
             return Result.error("用户或密码不正确");
         } else {
-            return Result.success("登录成功");
+            return Result.successLogin(TokenUtils.createJwtToken(sysUser.getId()), "登录成功", sysUser);
         }
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public String test (@CurrentUser SysUser user) {
+
+        return Result.success("测试成功", user);
     }
 }

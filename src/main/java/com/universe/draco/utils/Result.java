@@ -1,7 +1,11 @@
 package com.universe.draco.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.universe.draco.sys.entity.SysUser;
 import com.universe.draco.vo.ResultVO;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName: Result
@@ -11,10 +15,12 @@ import com.universe.draco.vo.ResultVO;
  */
 public class Result {
 
-    //成功
-    private static String SUCCESS = "1";
-    //失败
-    private static String ERROR = "0";
+    // 成功
+    public static String SUCCESS = "200";
+    // 失败
+    public static String ERROR = "500";
+    // 请求未认证，跳转登录页
+    public static String UNAUTHORIZED = "401";
 
     public static String success() {
         ResultVO vo = new ResultVO();
@@ -63,5 +69,14 @@ public class Result {
         vo.setCode(code);
         vo.setMsg(msg);
         return JSONObject.toJSONString(vo);
+    }
+
+    public static String successLogin(String token, String msg, SysUser user) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", SUCCESS);
+        map.put("msg", msg);
+        map.put("token", token);
+        map.put("data", user);
+        return JSONObject.toJSONString(map);
     }
 }
