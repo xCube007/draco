@@ -90,13 +90,20 @@ public class TokenUtils {
 
     }
 
-    // 验证和读取JWT的示例方法
-    public static Claims parseJWT(String jwt) {
+    /**
+     *
+     * 功能描述: 验证和读取JWT的示例方法
+     *
+     * @param jwt:
+     * @author: Liu Xiaonan
+     * @return: io.jsonwebtoken.Claims
+     * @date: 2019/8/12 10:43
+     */
+    public static Claims parseJwt(String jwt) {
         // 如果它不是签名的JWS（如预期的那样），则该行将抛出异常
-        Claims claims = Jwts.parser()
+        return Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(SECRET))
                 .parseClaimsJws(jwt).getBody();
-        return claims;
     }
 
     public static void main(String[] args) {

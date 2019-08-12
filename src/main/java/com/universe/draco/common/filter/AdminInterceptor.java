@@ -1,5 +1,6 @@
 package com.universe.draco.common.filter;
 
+import com.universe.draco.annotations.LoginRequired;
 import com.universe.draco.common.exception.MyException;
 import com.universe.draco.sys.entity.SysUser;
 import com.universe.draco.sys.service.SysUserService;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 /**
  * @ClassName: AdminInterceptor
@@ -36,7 +38,15 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 
     private static AdminInterceptor adminInterceptor;
 
-    @PostConstruct //通过@PostConstruct实现初始化bean之前进行的操作
+    /**
+     *
+     * 功能描述: 通过@PostConstruct实现初始化bean之前进行的操作
+     *
+     * @author: Liu Xiaonan
+     * @return: void
+     * @date: 2019/8/12 10:47
+     */
+    @PostConstruct
     public void init() {
         adminInterceptor = this;
         adminInterceptor.sysUserService = this.sysUserService;
@@ -60,17 +70,16 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-//        HandlerMethod handlerMethod = (HandlerMethod) handler;
-//        Method method = handlerMethod.getMethod();
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        Method method = handlerMethod.getMethod();
         // 判断接口是否需要登录
-//        LoginRequired methodAnnotation = method.getAnnotation(LoginRequired.class);
+        LoginRequired methodAnnotation = method.getAnnotation(LoginRequired.class);
 
         // 有 @LoginRequired 注解，需要认证
 //        if (methodAnnotation != null) {
-        // 判断是否存在令牌信息，如果存在，则允许登录
+
         String accessToken = request.getHeader("Authorization");
-
-
+        // 判断是否存在令牌信息，如果存在，则允许登录
         if (null == accessToken) {
             // 无token
             throw new MyException(Result.UNAUTHORIZED, "无token，请重新登录");
@@ -78,7 +87,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
             // 从Redis 中查看 token 是否过期
             Claims claims;
             try {
-                claims = TokenUtils.parseJWT(accessToken);
+                claims = TokenUtils.parseJwt(accessToken);
             } catch (ExpiredJwtException e) {
                 throw new MyException(Result.UNAUTHORIZED, "token失效，请重新登录");
             } catch (SignatureException se) {

@@ -15,11 +15,17 @@ import java.util.Map;
  */
 public class Result {
 
-    // 成功
+    /**
+     * 成功
+     */
     public static String SUCCESS = "200";
-    // 失败
+    /**
+     * 失败
+     */
     public static String ERROR = "500";
-    // 请求未认证，跳转登录页
+    /**
+     * 请求未认证，跳转登录页
+     */
     public static String UNAUTHORIZED = "401";
 
     public static String success() {
@@ -72,7 +78,7 @@ public class Result {
     }
 
     public static String successLogin(String token, String msg, SysUser user) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(4);
         map.put("code", SUCCESS);
         map.put("msg", msg);
         map.put("token", token);
