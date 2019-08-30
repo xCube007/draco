@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -70,7 +71,7 @@ public class SysUserController {
             return Result.error("用户不存在");
         }
         // 密码进行MD5加密
-        String md5Psd = DigestUtils.md5DigestAsHex(password.getBytes());
+        String md5Psd = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
         user.setPassword(md5Psd);
         SysUser sysUser = sysUserService.selectOne(new EntityWrapper<>(user));
         if (sysUser == null) {
