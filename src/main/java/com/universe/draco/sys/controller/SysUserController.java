@@ -1,6 +1,8 @@
 package com.universe.draco.sys.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.universe.draco.annotations.CurrentUser;
 import com.universe.draco.sys.entity.SysUser;
 import com.universe.draco.sys.service.SysUserService;
@@ -41,7 +43,7 @@ public class SysUserController {
     /**
      * 功能描述:
      *
-     * @param loginVo:       前端传入的json
+     * @param loginVo: 前端传入的json
      * @param bindingResult:
      * @author: Liu Xiaonan
      * @return: java.lang.String
@@ -76,9 +78,37 @@ public class SysUserController {
         SysUser sysUser = sysUserService.selectOne(new EntityWrapper<>(user));
         if (sysUser == null) {
             return Result.error("用户或密码不正确");
+        } else if (sysUser.getAllowLogin() == 0){
+            return Result.error("用户已禁用");
         } else {
             return Result.successLogin(TokenUtils.createJwtToken(sysUser.getId()), "登录成功", sysUser);
         }
+    }
+
+
+    /**
+     *
+     * 功能描述: 获取所有用户信息
+     *
+     * @param user: 获得当前的登录的用户信息
+     * @param jsonParam: 前端传入的数据
+     * @author: Liu Xiaonan
+     * @return: java.lang.String
+     * @date: 2019/9/8 16:13
+     */
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    public String getUserList(@CurrentUser SysUser user, @RequestBody JSONObject jsonParam){
+        //除管理员用户外其他用户没有权限
+        if (user.getUserType() != 0) {
+            return Result.error("权限不足");
+        }
+        //获取前台发送过来的分页数据
+        int pageNo = jsonParam.getByte("pageNo");
+        int pageSize = jsonParam.getByte("pageSize");
+
+        Page<SysUser> p = new Page<>(pageNo, pageSize);
+        Page<SysUser> page = sysUserService.selectPage(p);
+        return  Result.success("请求成功",page);
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
