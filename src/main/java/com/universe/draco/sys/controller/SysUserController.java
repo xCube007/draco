@@ -96,7 +96,7 @@ public class SysUserController {
      * @return: java.lang.String
      * @date: 2019/9/8 16:13
      */
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String getUserList(@CurrentUser SysUser user, @RequestBody JSONObject jsonParam){
         //除管理员用户外其他用户没有权限
         if (user.getUserType() != 0) {
