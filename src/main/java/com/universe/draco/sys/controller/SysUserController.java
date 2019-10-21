@@ -1,6 +1,5 @@
 package com.universe.draco.sys.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.universe.draco.annotations.CurrentUser;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 /**
  * <p>
@@ -54,7 +52,8 @@ public class SysUserController {
         // 校验传入的参数是否符合规范
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()), bindingResult);
-            return Result.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+//            return Result.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
+            return Result.error("出了点小问题，请联系开发人员哦~");
         }
         // 开始对用户名密码进行校验
         SysUser user = new SysUser();
@@ -91,20 +90,18 @@ public class SysUserController {
      * 功能描述: 获取所有用户信息
      *
      * @param user: 获得当前的登录的用户信息
-     * @param jsonParam: 前端传入的数据
+     * @param pageNo: 分页的页码
+     * @param pageSize: 每页的数据数量
      * @author: Liu Xiaonan
      * @return: java.lang.String
      * @date: 2019/9/8 16:13
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String getUserList(@CurrentUser SysUser user, @RequestBody JSONObject jsonParam){
+    public String getUserList(@CurrentUser SysUser user, int pageNo, int pageSize){
         //除管理员用户外其他用户没有权限
         if (user.getUserType() != 0) {
             return Result.error("权限不足");
         }
-        //获取前台发送过来的分页数据
-        int pageNo = jsonParam.getByte("pageNo");
-        int pageSize = jsonParam.getByte("pageSize");
 
         Page<SysUser> p = new Page<>(pageNo, pageSize);
         Page<SysUser> page = sysUserService.selectPage(p);

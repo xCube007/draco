@@ -26,10 +26,10 @@ public class DefaultExceptionHandler {
             if (e instanceof MyException ) {
                 logger.debug(e.getMessage(), e);
                 MyException  ex = (MyException) e;
-                return Result.error(ex.getCode(), ex.getMsg());
+                return Result.error(ex.getCode(), "出了点小问题，请联系开发人员哦~");
             } else {
                 logger.error(e.getMessage(), e);
-                return Result.error(e.getMessage());
+                return Result.error("出了点小问题，请联系开发人员哦~");
             }
         }
         assert e != null;
