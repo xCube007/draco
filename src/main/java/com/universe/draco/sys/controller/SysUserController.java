@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 /**
  * <p>
@@ -49,10 +50,11 @@ public class SysUserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@Valid @RequestBody LoginVo loginVo, BindingResult bindingResult) {
+
+        Date date = new Date();
         // 校验传入的参数是否符合规范
         if (bindingResult.hasErrors()) {
             logger.error(String.valueOf(bindingResult.getFieldError()), bindingResult);
-//            return Result.error(Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage());
             return Result.error("出了点小问题，请联系开发人员哦~");
         }
         // 开始对用户名密码进行校验
@@ -78,8 +80,13 @@ public class SysUserController {
         if (sysUser == null) {
             return Result.error("用户或密码不正确");
         } else if (sysUser.getAllowLogin() == 0){
-            return Result.error("用户已禁用");
+            return Result.error("用户不可用，请联系管理员");
         } else {
+            // 更新最后登录时间
+            SysUser updateUser = new SysUser();
+            updateUser.setId(sysUser.getId());
+            updateUser.setLastLoginDate(date);
+            sysUserService.updateById(updateUser);
             return Result.successLogin(TokenUtils.createJwtToken(sysUser.getId()), "登录成功", sysUser);
         }
     }
@@ -97,7 +104,7 @@ public class SysUserController {
      * @date: 2019/9/8 16:13
      */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String getUserList(@CurrentUser SysUser user, int pageNo, int pageSize){
+    public String getUserList(@CurrentUser SysUser user, int pageNo, int pageSize) {
         //除管理员用户外其他用户没有权限
         if (user.getUserType() != 0) {
             return Result.error("权限不足");
@@ -108,8 +115,26 @@ public class SysUserController {
         return  Result.success("请求成功",page);
     }
 
+    /**
+     *
+     * 功能描述: 添加用户接口
+     *
+     * @param user: 用户数据对象
+     * @author: Liu Xiaonan
+     * @return: java.lang.String
+     * @date: 2019/10/22 16:29
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(@CurrentUser SysUser user, @RequestBody SysUser userNew) {
+        //除管理员用户外其他用户没有权限
+        if (user.getUserType() != 0) {
+            return Result.error("权限不足");
+        }
+        return sysUserService.add(userNew);
+    }
+
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String test (@CurrentUser SysUser user) {
+    public String test(@CurrentUser SysUser user) {
 
         return Result.success("测试成功", user);
     }

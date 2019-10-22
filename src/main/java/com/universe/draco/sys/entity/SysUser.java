@@ -1,8 +1,9 @@
 package com.universe.draco.sys.entity;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableName;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -65,6 +66,10 @@ public class SysUser implements Serializable {
      * 更新时间
      */
     private Date updateDate;
+    /**
+     * 最后登录时间
+     */
+    private Date lastLoginDate;
     /**
      * 备注信息
      */
@@ -167,6 +172,14 @@ public class SysUser implements Serializable {
         this.updateDate = updateDate;
     }
 
+    public Date getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
     public String getRemarks() {
         return remarks;
     }
@@ -190,6 +203,7 @@ public class SysUser implements Serializable {
         ", allowLoginReason=" + allowLoginReason +
         ", createDate=" + createDate +
         ", updateDate=" + updateDate +
+        ", lastLoginDate=" + lastLoginDate +
         ", remarks=" + remarks +
         "}";
     }

@@ -40,8 +40,8 @@ public class TokenUtils {
         String issuer = "LiuXiaonan";
         // 面向用户
         String subject = "draco";
-        // 过期时间 200分钟
-        long ttlMillis = 12000000;
+        // 过期时间 24小时
+        long ttlMillis = 86400000;
         return createJwtToken(id, issuer, subject, ttlMillis);
     }
 

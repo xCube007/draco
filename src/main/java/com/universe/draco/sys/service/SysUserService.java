@@ -13,4 +13,11 @@ import com.universe.draco.sys.entity.SysUser;
  */
 public interface SysUserService extends IService<SysUser> {
 
+    /**
+     * 功能描述: 增加用户
+     * @param userNew: 用户对象
+     * @return: java.lang.String
+     */
+    String add(SysUser userNew);
+
 }

@@ -11,14 +11,23 @@ import javax.validation.constraints.NotEmpty;
  */
 public class LoginVo {
 
+    /**
+     * 用户名（手机号或者邮箱）
+     */
     @NotEmpty(message = "用户名不能为空")
-    private String account; //用户名（手机号或者邮箱）
+    private String account;
 
+    /**
+     * 密码
+     */
     @NotEmpty(message = "密码不能为空")
-    private String password; //密码
+    private String password;
 
+    /**
+     * 登录方法  1.手机号  2.邮箱
+     */
     @Range(min=1, max=2, message = "登录异常，这是前端的锅哦~")
-    private int method; //登录方法  1.手机号  2.邮箱
+    private int method;
 
     public String getAccount() {
         return account;
