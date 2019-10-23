@@ -5,6 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @ClassName: DracoApplication
+ * @Description: 入口类
+ * @Author: Liu Xiaonan
+ * @data： 2019/6/20 18:06
+ */
 @SpringBootApplication
 public class DracoApplication {
 

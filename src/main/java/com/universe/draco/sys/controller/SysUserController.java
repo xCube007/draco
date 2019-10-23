@@ -40,7 +40,7 @@ public class SysUserController {
     private SysUserService sysUserService;
 
     /**
-     * 功能描述:
+     * 功能描述: 用户登录
      *
      * @param loginVo: 前端传入的json
      * @param bindingResult:
@@ -117,7 +117,7 @@ public class SysUserController {
 
     /**
      *
-     * 功能描述: 添加用户接口
+     * 功能描述: 添加用户
      *
      * @param user: 用户数据对象
      * @author: Liu Xiaonan
@@ -133,9 +133,18 @@ public class SysUserController {
         return sysUserService.add(userNew);
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String test(@CurrentUser SysUser user) {
+    /**
+     *
+     * 功能描述: 根据token获得登录用户信息
+     *
+     * @param user: 用户数据对象
+     * @author: Liu Xiaonan
+     * @return: java.lang.String
+     * @date: 2019/10/23 16:33
+     */
+    @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
+    public String getUserInfo(@CurrentUser SysUser user) {
 
-        return Result.success("测试成功", user);
+        return Result.success("请求成功", user);
     }
 }
