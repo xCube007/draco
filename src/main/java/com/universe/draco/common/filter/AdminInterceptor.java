@@ -8,6 +8,7 @@ import com.universe.draco.utils.Result;
 import com.universe.draco.utils.TokenUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        logger.info("=========================进入拦截器============================");
+        logger.info("==========="+ request.getRequestURI() + "=============进入拦截器============================");
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -90,7 +91,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
                 claims = TokenUtils.parseJwt(accessToken);
             } catch (ExpiredJwtException e) {
                 throw new MyException(Result.UNAUTHORIZED, "token失效，请重新登录");
-            } catch (SignatureException se) {
+            } catch (SignatureException | MalformedJwtException se) {
                 throw new MyException(Result.UNAUTHORIZED, "token令牌错误");
             }
 
