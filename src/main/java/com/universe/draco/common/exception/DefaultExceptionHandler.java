@@ -24,7 +24,7 @@ public class DefaultExceptionHandler {
     public String processServiceException(Exception e) {
         if (null != e && StringUtils.isNotBlank(e.getMessage())) {
             if (e instanceof MyException ) {
-                logger.debug(e.getMessage(), e);
+                logger.warn(e.getMessage(), e);
                 MyException  ex = (MyException) e;
                 return Result.error(ex.getCode(), e.getMessage());
             } else {
