@@ -18,15 +18,15 @@ public class Result {
     /**
      * 成功
      */
-    public static String SUCCESS = "200";
+    public static final String SUCCESS = "200";
     /**
      * 失败
      */
-    public static String ERROR = "500";
+    public static final String ERROR = "500";
     /**
      * 请求未认证，跳转登录页
      */
-    public static String UNAUTHORIZED = "401";
+    public static final String UNAUTHORIZED = "401";
 
     public static String success() {
         ResultVO vo = new ResultVO();

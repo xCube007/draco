@@ -1,6 +1,5 @@
 package com.universe.draco.common.filter;
 
-import com.universe.draco.annotations.LoginRequired;
 import com.universe.draco.common.exception.MyException;
 import com.universe.draco.sys.entity.SysUser;
 import com.universe.draco.sys.service.SysUserService;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 
 /**
  * @ClassName: AdminInterceptor
@@ -50,7 +48,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
     @PostConstruct
     public void init() {
         adminInterceptor = this;
-        adminInterceptor.sysUserService = this.sysUserService;
+//        adminInterceptor.sysUserService = this.sysUserService;
         // 初使化时将已静态化的testService实例化
     }
 
@@ -71,10 +69,10 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        Method method = handlerMethod.getMethod();
+//        HandlerMethod handlerMethod = (HandlerMethod) handler;
+//        Method method = handlerMethod.getMethod();
         // 判断接口是否需要登录
-        LoginRequired methodAnnotation = method.getAnnotation(LoginRequired.class);
+//        LoginRequired methodAnnotation = method.getAnnotation(LoginRequired.class);
 
         // 有 @LoginRequired 注解，需要认证
 //        if (methodAnnotation != null) {
